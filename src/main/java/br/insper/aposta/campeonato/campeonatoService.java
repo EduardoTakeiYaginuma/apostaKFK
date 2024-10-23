@@ -18,6 +18,7 @@ public class campeonatoService {
 
     @KafkaListener(topics = "partidas")
     public void getPartidas(RetornarPartidaDTO dto){
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaa0");
         Integer placarMandante = dto.getPlacarMandante();
         Integer placarVisitante = dto.getPlacarVisitante();
         List<Aposta> apostas = apostaRepository.findAll();
@@ -27,14 +28,21 @@ public class campeonatoService {
                     if (aposta.getResultado().equals("Mandante")){
                         aposta.setStatus("Ganhou");
                     }
+                    else {
+                        aposta.setStatus("Perdeu");
+                    }
                 } else if (placarMandante < placarVisitante){
                     if (aposta.getResultado().equals("Visitante")){
                         aposta.setStatus("Ganhou");
+                    }
+                    else {
+                        aposta.setStatus("Perdeu");
                     }
                 } else {
                     if (aposta.getResultado().equals("Empate")){
                         aposta.setStatus("Ganhou");
                     }
+
                 }
                 apostaRepository.save(aposta);
             }
